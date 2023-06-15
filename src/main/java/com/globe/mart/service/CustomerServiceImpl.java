@@ -9,6 +9,9 @@ import com.globe.mart.model.Product;
 import com.globe.mart.repository.CustomerRepository;
 import com.globe.mart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -69,4 +72,19 @@ public class CustomerServiceImpl implements CustomerService {
          customerRepository.deleteById(customerId);
         return "Customer Deleted Successfully";
     }
+
+    @Override
+    public Page<Customer> getAllCustomers() throws CustomerException {
+       List<Customer> customerList = customerRepository.findAll();
+       if (customerList.isEmpty()) {
+           throw new CustomerException("customer list is empty");
+       }
+        int pageNumber = 0;
+        int pageSize = 10;
+        Sort sort = Sort.by("customerName").ascending();
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
+        return customerRepository.findAllByOrderByCustomerName(pageRequest);
+    }
+
 }
