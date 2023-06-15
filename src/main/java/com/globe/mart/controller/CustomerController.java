@@ -8,6 +8,7 @@ import com.globe.mart.model.Customer;
 import com.globe.mart.model.Product;
 import com.globe.mart.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,11 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomerById(@PathVariable("customerId") Integer customerId) throws CustomerException {
       String msg  = customerService.deleteCustomerById(customerId);
         return new ResponseEntity<>(msg,HttpStatus.OK);
+    }
+
+    @GetMapping("/customers")
+    public ResponseEntity<Page<Customer>> getAllCustomers() throws CustomerException {
+        return new ResponseEntity<>(customerService.getAllCustomers(),HttpStatus.OK);
     }
 
 }
