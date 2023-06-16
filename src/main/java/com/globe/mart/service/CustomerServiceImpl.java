@@ -84,7 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
         Sort sort = Sort.by("customerName").ascending();
 
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
-        return customerRepository.findAllByOrderByCustomerName(pageRequest);
+        return customerRepository.findAll(pageRequest);
     }
 
 }

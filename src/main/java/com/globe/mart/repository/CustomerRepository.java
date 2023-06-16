@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
-    Page<Customer> findAllByOrderByCustomerName(Pageable pageable);
+    Page<Customer> findAll(Pageable pageable);
 
 
 
