@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -32,15 +33,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer addCustomer(Customer customer) throws CustomerException {
-        Optional<Customer> customerOptional = customerRepository.findById(customer.getCustomerId());
-             if (ObjectUtils.isEmpty(customer.getCustomerName()) || customerOptional.isPresent()) {
-                 throw new CustomerException("Please provide valid customer details");
+        if (ObjectUtils.isEmpty(customer)) {
+            throw new CustomerException("Please provide all valid customer details");
              }
              return customerRepository.save(customer);
     }
 
     @Override
-    public Customer updateCustomer(Integer customerId, List<Product> productList) throws CustomerException, ProductException {
+    public Customer updateCustomer(UUID customerId, List<Product> productList) throws CustomerException, ProductException {
      Optional<Customer> customerOptional = customerRepository.findById(customerId);
      if (customerOptional.isEmpty()) {
          throw new CustomerException("customer with this id"+ customerId+" "+"does not exist");
@@ -63,10 +63,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public String deleteCustomerById(Integer customerId) throws CustomerException {
+    public String deleteCustomerById(UUID customerId) throws CustomerException {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
         if (customerOptional.isEmpty()) {
-            throw new CustomerException("customer with this id"+ customerId + " " +"does not exist! can't delete");
+            throw new CustomerException("customer with this id"+" "+ customerId + " " +"does not exist! can't delete");
         }
 
          customerRepository.deleteById(customerId);
@@ -85,6 +85,22 @@ public class CustomerServiceImpl implements CustomerService {
 
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
         return customerRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public String login(String customerEmail, String customerPassword) throws CustomerException {
+        if (customerEmail.isEmpty() || customerPassword.isEmpty()) {
+            throw new CustomerException("Please provide required email and password");
+        }
+       Optional<Customer> customer =customerRepository.findCustomerByCustomerEmail(customerEmail);
+        if (customer.isEmpty()){
+            throw new CustomerException("User not exists...sign up first");
+        }
+
+        if(!customerPassword.equals(customer.get().getCustomerPassword()) || !customerEmail.equals(customer.get().getCustomerEmail())){
+            throw new CustomerException("email or password is incorrect...please provide valid login credentials");
+        }
+        return "Customer login Successfully";
     }
 
 }

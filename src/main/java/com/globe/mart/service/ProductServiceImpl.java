@@ -6,6 +6,7 @@ import com.globe.mart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +49,14 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductException("product with this id:"+ productId + "does not exists");
         }
         return optionalProduct.get();
+    }
+
+    @Override
+    public List<Product> getAllProducts() throws ProductException {
+        List<Product> productList =productRepository.findAll();
+        if (productList.isEmpty()) {
+            throw new ProductException("No products added yet!...");
+        }
+        return productList;
     }
 }

@@ -1,8 +1,8 @@
-package com.globe.mart.controller;
+package com.globe.mart.exception;
 
 
 
-import com.globe.mart.exception.CustomerException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -8,16 +8,21 @@ import com.globe.mart.model.Product;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CustomerService {
 
      Customer addCustomer(Customer customer) throws CustomerException;
 
-     Customer updateCustomer(Integer customerId, List<Product> productList) throws CustomerException, ProductException;
+     Customer updateCustomer(UUID customerId, List<Product> productList) throws CustomerException, ProductException;
 
-     String deleteCustomerById(Integer customerId) throws CustomerException;
+     String deleteCustomerById(UUID customerId) throws CustomerException;
 
-     public Page<Customer> getAllCustomers() throws CustomerException;
+     Page<Customer> getAllCustomers() throws CustomerException;
+
+     String login(String customerEmail, String customerPassword) throws CustomerException;
+
+
 
 
 }
