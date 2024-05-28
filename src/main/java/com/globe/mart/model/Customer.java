@@ -2,8 +2,7 @@ package com.globe.mart.model;
 
 
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.UniqueElements;
+pus
 
 
 import javax.persistence.*;
