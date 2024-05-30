@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -24,16 +25,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product product) throws ProductException {
-       Optional<Product> optionalProduct = productRepository.findById(product.getProductId());
+    public Product updateProduct(UUID productId, Product product) throws ProductException {
+
+       Optional<Product> optionalProduct = productRepository.findById(productId);
        if (optionalProduct.isEmpty()) {
-           throw new ProductException("product with this id:"+ product.getProductId() + "does not exists");
+           throw new ProductException("product with this id:"+ productId + "does not exists");
        }
        return productRepository.save(product);
     }
 
     @Override
-    public String deleteProductById(Integer productId) throws ProductException {
+    public String deleteProductById(UUID productId) throws ProductException {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isEmpty()) {
             throw new ProductException("product with this id:"+ productId + "does not exists");
@@ -43,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Integer productId) throws ProductException {
+    public Product getProductById(UUID productId) throws ProductException {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isEmpty()) {
             throw new ProductException("product with this id:"+ productId + "does not exists");

@@ -21,13 +21,14 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/v1")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping(value = "/customer")
-    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) throws CustomerException {
+    @PostMapping(value = "/register/customer")
+    public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) throws CustomerException {
         Customer newCustomer = customerService.addCustomer(customer);
         return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }

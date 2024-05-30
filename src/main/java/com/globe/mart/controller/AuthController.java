@@ -1,8 +1,10 @@
 package com.globe.mart.controller;
 
+import com.globe.mart.model.User;
 import com.globe.mart.service.MyUserDetailsService;
 import com.globe.mart.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class AuthController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/login")
+    @PostMapping("/generate/token")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
         String email = loginRequest.get("email");
         String password = loginRequest.get("password");
@@ -53,4 +55,13 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/register/user")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        return new ResponseEntity<>(userDetailsService.registerUser(user), HttpStatus.OK);
+    }
+
+
+
+
 }

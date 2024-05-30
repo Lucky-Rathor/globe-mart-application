@@ -2,7 +2,7 @@ package com.globe.mart.model;
 
 
 import lombok.*;
-pus
+
 
 
 import javax.persistence.*;
